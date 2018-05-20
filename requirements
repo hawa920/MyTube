@@ -1,2 +1,5 @@
 pymongo==3.6.1
 elasticsearch==6.2.0
+youtube-dl==2018.4.3
+Flask==0.12
+Flask-Cors==3.0.4
