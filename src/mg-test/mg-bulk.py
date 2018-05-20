@@ -8,8 +8,9 @@ client = pymongo.MongoClient('localhost', 27017)
 db = client['youtube']
 collect = db['records']
 
+counter = 0
 bulks = []
-with open('../storage/records', 'r') as fp:
+with open('../../storage/records', 'r') as fp:
     for line in fp:
 
         line = line.replace('\n', '')
@@ -60,6 +61,7 @@ with open('../storage/records', 'r') as fp:
             except:
                 subscribe = 0
             bulk = {
+                "id" : counter,
                 "url" : url,
                 "imageurl" : 'https://img.youtube.com/vi/' + url[32:] + '/hqdefault.jpg',
                 "title" : title,
@@ -72,6 +74,7 @@ with open('../storage/records', 'r') as fp:
                 "subscribe" : subscribe 
             }
             bulks.append(bulk)
+            counter += 1
 
 result = collect.insert_many(bulks)
 print(result)
