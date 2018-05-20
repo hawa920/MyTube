@@ -66,9 +66,22 @@ def search():
     yrb = temp[1]
     opt = temp[2]
     num = temp[3]
+    
     client = pymongo.MongoClient('localhost', 27017)
     db = client['youtube']
     collect = db['records']
+    
+    if opt == 'rand':
+      temp = collect.aggregate([{ "$sample" : {"size" : int(num)}}])
+      ret = []
+      for rec in temp:
+        # remove 'key:id'
+        rec.pop('_id', None)
+        # print(rec, '\n')
+        ret.append(rec)
+      return json.dumps(ret)
+
+   
 
     temp = collect.find({
 
@@ -84,9 +97,9 @@ def search():
       # remove 'key:id'
       rec.pop('_id', None)
       # print(rec, '\n')
-      ret.append(rec)
-    
+      ret.append(rec)    
     return json.dumps(ret)
+    
   else:
     body = {
       "query": {
