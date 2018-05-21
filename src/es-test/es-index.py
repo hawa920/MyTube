@@ -57,5 +57,5 @@ def CreateIndex(INDEX_NAME):
 
 
 if __name__ == "__main__":
-    # DeleteIndex('youtube')
-    # CreateIndex('youtube')
+    DeleteIndex('youtube')
+    CreateIndex('youtube')

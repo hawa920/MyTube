@@ -8,7 +8,7 @@ from elasticsearch import helpers
 
 count = 0
 bulks = []
-with open('../storage/records', 'r') as fp:
+with open('../../storage/records', 'r') as fp:
     for line in fp:
 
         line = line.replace('\n', '')
