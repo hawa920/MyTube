@@ -109,12 +109,7 @@
                               </div><br>
                             </v-card-title>
                             <v-card-actions>
-                            <form action="127.0.0.1:5003/mp3-dl" method="POST">
-                                
-                                <input type="text" id="dl-link" name="link" style="display:none" v-bind:value="rec.url"/>
-                                <v-btn flat color="orange"><button>Download</button></v-btn>
-                            
-                            </form>
+                            <v-btn flat color="orange">Download</v-btn>
                               
                               <a target="_blank"  style="text-decoration: none" v-bind:href="rec.url">
                                 <v-btn flat color="orange">Explore</v-btn>
@@ -175,13 +170,14 @@
       records:[]
       },
       methods:  {
-          async search()    {
-              let result = null
-              result = await axios.get('/search', { 'params': { 'query':this.keyword } })
-              // return value will be packed under 'data'......
-              this.records = result.data
-              console.log(this.records)
-          }
+        async search()    {
+            let result = null
+            result = await axios.get('/search', { 'params': { 'query':this.keyword } })
+            // return value will be packed under 'data'......
+            this.records = result.data
+            // console.log(this.records)
+        },
+       
       },
 
       props: {
