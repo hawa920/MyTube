@@ -23,12 +23,14 @@ def index():
   return render_template('index.html')
 
 
-@app.route("/mp3-dl", methods = ['POST'])
+@app.route("/mp3-dl/<url>", methods = ['GET'])
 @cross_origin()
-def downloader():
+def downloader(url):
 
-  url = json.dumps(request.form.get('link'))
-  url = str(url[1:len(str(url))-1])
+  url = 'https://www.youtube.com/watch?v=' + url
+  # return url
+  # url = json.dumps(request.form.get('link'))
+  # url = str(url[1:len(str(url))-1])
   outfile = '../storage/' + ''.join(random.choice(string.ascii_letters+string.digits) for i in range(30)) + '.mp3'
   options = {
 

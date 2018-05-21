@@ -109,8 +109,9 @@
                               </div><br>
                             </v-card-title>
                             <v-card-actions>
+                                <a :href="'/mp3-dl/' + rec.url.substring(32)" target="_blank"  style="text-decoration: none">
                             <v-btn flat color="orange">Download</v-btn>
-                              
+                              </a>
                               <a target="_blank"  style="text-decoration: none" v-bind:href="rec.url">
                                 <v-btn flat color="orange">Explore</v-btn>
                               </a>
