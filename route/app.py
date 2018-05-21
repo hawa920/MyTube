@@ -5,7 +5,7 @@ import random
 import string
 import youtube_dl
 from flask_cors import CORS, cross_origin
-from flask import Flask, request, send_from_directory, send_file, make_response
+from flask import Flask, request, send_from_directory, send_file, make_response, render_template
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 import pymongo
@@ -20,7 +20,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def index():
   if request.method == 'POST':
     return 'Bad Request.'
-  return "Good day, sir."
+  return render_template('index.html')
 
 
 @app.route("/mp3-dl", methods = ['POST'])
@@ -53,11 +53,11 @@ def downloader():
 
 @app.route("/search", methods = ['GET'])
 @cross_origin()
-def search():  
+def search():
   query = request.args.get('query')
   if query is None:
     return 'None Query.'
-  
+
   # test if it's a special request
   temp = re.findall('\d+:\d+:\w+:\d+', query)
   if len(temp) is 1:
@@ -66,11 +66,11 @@ def search():
     yrb = temp[1]
     opt = temp[2]
     num = temp[3]
-    
+
     client = pymongo.MongoClient('localhost', 27017)
     db = client['youtube']
     collect = db['records']
-    
+
     if opt == 'rand':
       temp = collect.aggregate([{ "$sample" : {"size" : int(num)}}])
       ret = []
@@ -81,7 +81,7 @@ def search():
         ret.append(rec)
       return json.dumps(ret)
 
-   
+
 
     temp = collect.find({
 
@@ -92,24 +92,28 @@ def search():
           }
     ).sort(opt, pymongo.DESCENDING).limit(int(num))
     ret = []
-  
+
     for rec in temp:
       # remove 'key:id'
       rec.pop('_id', None)
       # print(rec, '\n')
-      ret.append(rec)    
+      ret.append(rec)
     return json.dumps(ret)
-    
+
   else:
     body = {
       "query": {
-          "match": { 
+          "match": {
               "title" : query
           }
       }
     }
     es = Elasticsearch()
-    res = es.search(index = 'youtube', doc_type = 'records', size = 10, body = body)
+    temp = es.search(index = 'youtube', doc_type = 'records', size = 10, body = body)
+    temp = temp['hits']['hits']
+    res = []
+    for rec in temp:
+      res.append(rec['_source'])
     return json.dumps(res)
 
 
@@ -122,4 +126,4 @@ def fallback(dummy):
 if __name__ == "__main__":
   #app.run(port=5000, debug=True)
   # Comment the line above and use the line below if you launch on your own server
-  app.run(host='0.0.0.0', port=5003)
+  app.run(host='0.0.0.0', port=5003, debug = True)
