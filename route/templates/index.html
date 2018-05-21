@@ -61,7 +61,7 @@
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-icon class="mx-3">fa-youtube</v-icon>
             <v-toolbar-title class="mr-5 align-center">
-              <span class="title">Youtube</span>
+              <span class="title">Youtube2.0</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-layout row align-center style="max-width: 650px">
@@ -72,6 +72,8 @@
                 :append-icon-cb="() => {}"
                 color="white"
                 hide-details
+                
+                v-model='keyword' @keyup.enter='search'
               ></v-text-field>
             </v-layout>
           </v-toolbar>
@@ -104,7 +106,7 @@
                                 <span>[[ rec.owner ]]</span><br>
                                 <!--span>[[ rec.subscribe ]]</span-->
                  
-                              </div>
+                              </div><br>
                             </v-card-title>
                             <v-card-actions>
                             <form action="127.0.0.1:5003/mp3-dl" method="POST">
@@ -130,11 +132,16 @@
  
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
+      
         new Vue({
     el: '#app',
     data: {
         drawer: true,
+        // search pattern
+        keyword: '',
+
         items: [
           { icon: 'trending_up', text: 'Most Popular' },
           { icon: 'subscriptions', text: 'Subscriptions' },
@@ -149,6 +156,7 @@
           { picture: 58, text: 'Nokia' },
           { picture: 78, text: 'MKBHD' }
         ],
+        /*
         records: [
           {
               url : 'https://www.youtube.com/watch?v=r-d5HI-zC3I',
@@ -163,13 +171,26 @@
               subscribe: '400000'
           }
       ]
+      */
+      records:[]
       },
+      methods:  {
+          async search()    {
+              let result = null
+              result = await axios.get('/search', { 'params': { 'query':this.keyword } })
+              // return value will be packed under 'data'......
+              this.records = result.data
+              console.log(this.records)
+          }
+      },
+
       props: {
         source: String
       },
+      // flask uses jinja to parse, it will cause some conflict
+      // so the delimiter should be redefine
       delimiters: ['[[',']]'],
 
-      
   })
     </script>
 </body>
