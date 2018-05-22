@@ -24,4 +24,4 @@ Using vuejs as front-end, python flask server, elasticsearch and mongoDB as sear
 
 ![](https://i.imgur.com/LrFHg9W.png)
 
-  You can hit the EXPLORE button to open a new blank towards the original sites, this project only aims for providing more flexible searching methods with users.
+  You can hit the EXPLORE button to open a new blank towards the original sites, this project only aims for providing users with more flexible searching methods.
