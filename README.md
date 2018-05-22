@@ -4,10 +4,10 @@ This project is my own derivation from YouTube, which improves the flexibility w
 
 ## Structure
 Using vuejs as front-end, python flask server, elasticsearch and mongoDB as search kernel, youtube-dl as download kernel.
-https://i.imgur.com/tRwUMZj.png
+![](https://i.imgur.com/tRwUMZj.png)
 
 ## Usage
-* Input a search pattern (keyword)
+* Input a search pattern (keyw(ord)
 
 ![](https://i.imgur.com/Ppl7klg.png)
 * Input a range query format in the way like "year:year:options:number"
