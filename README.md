@@ -7,7 +7,7 @@ Using vuejs as front-end, python flask server, elasticsearch and mongoDB as sear
 ![](https://i.imgur.com/tRwUMZj.png)
 
 ## Usage
-* Input a search pattern (keyw(ord)
+* Input a search pattern (keyword)
 
 ![](https://i.imgur.com/Ppl7klg.png)
 * Input a range query format in the way like "year:year:options:number"
